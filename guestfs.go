@@ -8507,19 +8507,19 @@ func (g *Guestfs) Lgetxattrs(path string) (*[]XAttr, *GuestfsError) {
 }
 
 /* list_9p : list 9p filesystems */
-//func (g *Guestfs) List_9p() ([]string, *GuestfsError) {
-//	if g.g == nil {
-//		return nil, closed_handle_error("list_9p")
-//	}
-//
-//	r := C.guestfs_list_9p(g.g)
-//
-//	if r == nil {
-//		return nil, get_error_from_handle(g, "list_9p")
-//	}
-//	defer free_string_list(r)
-//	return return_string_list(r), nil
-//}
+func (g *Guestfs) List_9p() ([]string, *GuestfsError) {
+	if g.g == nil {
+		return nil, closed_handle_error("list_9p")
+	}
+
+	r := C.guestfs_list_9p(g.g)
+
+	if r == nil {
+		return nil, get_error_from_handle(g, "list_9p")
+	}
+	defer free_string_list(r)
+	return return_string_list(r), nil
+}
 
 /* list_devices : list the block devices */
 func (g *Guestfs) List_devices() ([]string, *GuestfsError) {
@@ -10499,39 +10499,39 @@ func (g *Guestfs) Mount(mountable string, mountpoint string) *GuestfsError {
 }
 
 /* Struct carrying optional arguments for Mount_9p */
-//type OptargsMount_9p struct {
-//	/* Options field is ignored unless Options_is_set == true */
-//	Options_is_set bool
-//	Options        string
-//}
-//
-///* mount_9p : mount 9p filesystem */
-//func (g *Guestfs) Mount_9p(mounttag string, mountpoint string, optargs *OptargsMount_9p) *GuestfsError {
-//	if g.g == nil {
-//		return closed_handle_error("mount_9p")
-//	}
-//
-//	c_mounttag := C.CString(mounttag)
-//	defer C.free(unsafe.Pointer(c_mounttag))
-//
-//	c_mountpoint := C.CString(mountpoint)
-//	defer C.free(unsafe.Pointer(c_mountpoint))
-//	c_optargs := C.struct_guestfs_mount_9p_argv{}
-//	if optargs != nil {
-//		if optargs.Options_is_set {
-//			c_optargs.bitmask |= C.GUESTFS_MOUNT_9P_OPTIONS_BITMASK
-//			c_optargs.options = C.CString(optargs.Options)
-//			defer C.free(unsafe.Pointer(c_optargs.options))
-//		}
-//	}
-//
-//	r := C.guestfs_mount_9p_argv(g.g, c_mounttag, c_mountpoint, &c_optargs)
-//
-//	if r == -1 {
-//		return get_error_from_handle(g, "mount_9p")
-//	}
-//	return nil
-//}
+type OptargsMount_9p struct {
+	/* Options field is ignored unless Options_is_set == true */
+	Options_is_set bool
+	Options        string
+}
+
+/* mount_9p : mount 9p filesystem */
+func (g *Guestfs) Mount_9p(mounttag string, mountpoint string, optargs *OptargsMount_9p) *GuestfsError {
+	if g.g == nil {
+		return closed_handle_error("mount_9p")
+	}
+
+	c_mounttag := C.CString(mounttag)
+	defer C.free(unsafe.Pointer(c_mounttag))
+
+	c_mountpoint := C.CString(mountpoint)
+	defer C.free(unsafe.Pointer(c_mountpoint))
+	c_optargs := C.struct_guestfs_mount_9p_argv{}
+	if optargs != nil {
+		if optargs.Options_is_set {
+			c_optargs.bitmask |= C.GUESTFS_MOUNT_9P_OPTIONS_BITMASK
+			c_optargs.options = C.CString(optargs.Options)
+			defer C.free(unsafe.Pointer(c_optargs.options))
+		}
+	}
+
+	r := C.guestfs_mount_9p_argv(g.g, c_mounttag, c_mountpoint, &c_optargs)
+
+	if r == -1 {
+		return get_error_from_handle(g, "mount_9p")
+	}
+	return nil
+}
 
 /* Struct carrying optional arguments for Mount_local */
 type OptargsMount_local struct {
